@@ -1,0 +1,14 @@
+http://productforums.google.com/forum/#!searchin/chrome/kiosk$20restore$20session/chrome/zJKK3CfEVUM/gVTz3_Wv6JcJ
+
+--incognito was suggested as a solution
+
+ 	CarpiLevel 1 	
+Post reply
+More message actions
+Apr 25
+In kiosk app in Debian i solve this by putting these lines to ~/.xinitrc
+
+echo "" > ~/.config/google-chrome/Profile\ 1/Current\ Session
+echo "" > ~/.config/google-chrome/Profile\ 1/Current\ Tabs
+echo "" > ~/.config/google-chrome/Profile\ 1/Last\ Session
+echo "" > ~/.config/google-chrome/Profile\ 1/Last\ Tabs
