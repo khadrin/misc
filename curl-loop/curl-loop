@@ -1,0 +1,29 @@
+#!/bin/bash
+
+CACHE_DIR=/tmp
+URL="${1-http://tycho.usno.navy.mil/cgi-bin/timer.pl}"
+META='<meta http-equiv="refresh" content="10">'
+SLEEP_SECS=10
+
+get_page () {
+    if curl -sS -o "$CACHE_DIR/page.html.tmp" "$URL"; then
+        if [ -n "$META" ]; then
+            sed -e "s/<html>/<html><head>$META<\/head>/" "$CACHE_DIR/page.html.tmp" > "$CACHE_DIR/page.html"
+        else
+            mv -f "$CACHE_DIR/page.html.tmp" "$CACHE_DIR/page.html"
+        fi
+    fi
+}
+
+CHROME_PID=''
+while true; do
+    if get_page; then
+        if [ -z "$CHROME_PID" ]; then
+            google-chrome --kiosk "file://$CACHE_DIR/page.html" &
+            CHROME_PID="$!"
+        fi
+    fi
+    sleep "$SLEEP_SECS"
+done
+
+exit
